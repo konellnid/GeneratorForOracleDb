@@ -12,3 +12,7 @@ class Delivery:
         self.sent_date = sent_date
         self.fk_address = fk_address
         self.fk_purchase = fk_purchase
+
+    def insert_query(self):
+        return f"({self.delivery_id}, '{self.expected_arrival}', '{self.delivery_type}', '{self.status}', " \
+               f"'{self.sent_date}', {self.fk_address}, {self.fk_purchase})"

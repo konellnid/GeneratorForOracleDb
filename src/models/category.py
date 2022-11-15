@@ -6,4 +6,4 @@ class Category:
         self.fk_category = fk_category
 
     def insert_query(self):
-        return f"({self.category_id}, '{self.name}', '{self.description}, {self.fk_category}')"
+        return f"({self.category_id}, '{self.name}', '{self.description}', {self.fk_category})"

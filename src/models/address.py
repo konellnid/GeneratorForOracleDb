@@ -12,4 +12,4 @@ class Address:
 
     def address_query(self):
         return f"({self.address_id}, '{self.country}', '{self.city}', '{self.state}', '{self.street}', " \
-               f"{self.street_number}, {self.apartment_number}, '{self.postal_code}') "
+               f"{self.street_number}, {self.apartment_number}, '{self.postal_code}', {self.fk_customer}) "
