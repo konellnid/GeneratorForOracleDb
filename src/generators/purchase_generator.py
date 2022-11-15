@@ -1,3 +1,12 @@
+from datetime import timedelta, date
+
+from faker import Faker
+from faker.generator import random
+from faker.providers import date_time, lorem
+
+from generators import utils
+
+
 class PurchaseGenerator:
     def __init__(self):
         self.fake = Faker(locale='en_US')
