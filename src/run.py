@@ -51,7 +51,7 @@ def run():
     purchase_generator = PurchaseGenerator()
     delivery_generator = DeliveryGenerator()
 
-    while i < 2:
+    while i < 1200:
         for _ in range(NUMBER_OF_CATEGORIES):
             category = category_generator.generate_category(category_id, -1)
             categories.append(category.insert_query())
