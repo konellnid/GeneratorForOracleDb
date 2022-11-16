@@ -113,15 +113,15 @@ def run():
             purchase = purchase_generator.generate_purchase(purchase_id, offer.offer_date, offer.offer_id,
                                                             customer.customer_id)
             purchases.append(purchase.insert_query())
-            purchase_id += 1
 
             number_of_delivery = random.randrange(1, 3)
             for _ in range(number_of_delivery):
-                address = addresses[len(addresses) -1]
+                address = addresses[len(addresses) - 1]
                 delivery = delivery_generator.generate_delivery(delivery_id, offer.offer_date, address.address_id,
                                                                 purchase.purchase_id)
                 deliveries.append(delivery.insert_query())
                 delivery_id += 1
+            purchase_id += 1
 
         data_inserter.values = purchases
         data_inserter.insert_purchase()
@@ -138,7 +138,7 @@ def run():
         offers = []
         customers = []
         addresses = []
-
+        purchases = []
 
 
 if __name__ == '__main__':

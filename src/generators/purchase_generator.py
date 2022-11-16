@@ -19,7 +19,7 @@ class PurchaseGenerator:
         return Purchase(
             purchase_id=purchase_id,
             quantity=random.randrange(1, 10),
-            additional_info=self.fake.text(1000).replace("'", " "),
+            additional_info=self.fake.text(800).replace("'", " "),
             rating=random.randrange(1, 6),
             purchase_date=self.get_random_purchase_date(offer_date),
             fk_offer=fk_offer,
