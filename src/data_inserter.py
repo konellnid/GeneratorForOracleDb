@@ -15,75 +15,65 @@ class DataInserter:
     def __init__(self, values):
         self.values = values
 
-    def insert_all(self, offers):
+    def insert_customers(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
-                # self._insert_customers(cursor)
-                # self._insert_offers(cursor)
-                # self._insert_address(cursor)
-                # self._insert_category(cursor)
-                self._insert_delivery(cursor)
-                # self._insert_purchase(cursor)
-            connection.commit()
-
-    async def insert_customers(self):
-        with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
-            with connection.cursor() as cursor:
-                insert_all_statement = build_insert_all(self.customer_values, sql_info.TABLE_NAME_CUSTOMER,
+                insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_CUSTOMER,
                                                         sql_info.CUSTOMER_FIELDS)
-                await cursor.execute(insert_all_statement)
+                cursor.execute(insert_all_statement)
             connection.commit()
+            print('Customer INSERTED (hopefully)')
 
-    async def insert_offers(self):
+    def insert_offers(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_OFFER,
                                                         sql_info.OFFER_FIELDS)
-                await cursor.execute(insert_all_statement)
-        connection.commit()
+                cursor.execute(insert_all_statement)
+            connection.commit()
+            print('Offers INSERTED (hopefully)')
 
-    async def insert_address(self):
+    def insert_address(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_ADDRESS,
                                                         sql_info.ADDRESS_FIELDS)
                 cursor.execute(insert_all_statement)
-            await connection.commit()
+            connection.commit()
         print('Address INSERTED (hopefully)')
 
-    async def insert_category(self):
+    def insert_category(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_CATEGORY,
                                                         sql_info.CATEGORY_FIELDS)
                 cursor.execute(insert_all_statement)
-            await connection.commit()
+            connection.commit()
             print('Category INSERTED (hopefully)')
 
-    async def insert_delivery(self):
+    def insert_delivery(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_DELIVERY,
                                                         sql_info.DELIVERY_FIELDS)
-                await cursor.execute(insert_all_statement)
+                cursor.execute(insert_all_statement)
             connection.commit()
             print('Delivery INSERTED (hopefully)')
 
-    async def insert_photo(self):
+    def insert_photo(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_PHOTO,
                                                         sql_info.PHOTO_FIELDS)
-                await cursor.execute(insert_all_statement)
+                cursor.execute(insert_all_statement)
             connection.commit()
             print('Photo INSERTED (hopefully)')
 
-    async def insert_purchase(self):
+    def insert_purchase(self):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 insert_all_statement = build_insert_all(self.values, sql_info.TABLE_NAME_PURCHASE,
                                                         sql_info.PURCHASE_FIELDS)
-                await cursor.execute(insert_all_statement)
+                cursor.execute(insert_all_statement)
             connection.commit()
             print('Purchase INSERTED (hopefully)')
-

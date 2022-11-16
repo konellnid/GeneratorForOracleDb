@@ -1,3 +1,6 @@
+from generators import utils
+
+
 class Delivery:
     expected_arrival = ''
     sent_date = ''
@@ -14,5 +17,8 @@ class Delivery:
         self.fk_purchase = fk_purchase
 
     def insert_query(self):
-        return f"({self.delivery_id}, '{self.expected_arrival}', '{self.delivery_type}', '{self.status}', " \
-               f"'{self.sent_date}', {self.fk_address}, {self.fk_purchase})"
+        formatted_expected_arrival_date = utils.format_date_for_oracle(self.expected_arrival)
+        formatted_sent_date = utils.format_date_for_oracle(self.sent_date)
+
+        return f"({self.delivery_id}, {formatted_expected_arrival_date}, '{self.delivery_type}', '{self.status}', " \
+               f"{formatted_sent_date}, {self.fk_address}, {self.fk_purchase})"

@@ -1,6 +1,5 @@
 import random
 from datetime import date, timedelta
-import asyncio
 
 from data_inserter import DataInserter
 from generators.address_generator import AddressGenerator
@@ -20,15 +19,19 @@ NUMBER_OF_PURCHASES = 100
 NUMBER_OF_DELIVERIES = 100
 
 
-async def run():
+def run():
     i = 0
-    addresses = []
-    customers = []
+    addresses_insert_queries = []
+    customers_insert_queries = []
     categories = []
-    offers = []
+    offer_insert_queries = []
     photos = []
     purchases = []
     deliveries = []
+
+    offers = []
+    customers = []
+    addresses = []
 
     customer_id = 0
     address_id = 0
@@ -62,22 +65,25 @@ async def run():
                 category_id += 1
 
         data_inserter.values = categories
-        await data_inserter.insert_category()
+        data_inserter.insert_category()
 
         for _ in range(NUMBER_OF_CUSTOMERS):
             customer = customer_generator.generate_customer(customer_id)
-            customers.append(customer.insert_query())
+            customers_insert_queries.append(customer.insert_query())
+            customers.append(customer)
 
             number_of_addresses = random.randrange(1, 4)
             for _ in range(number_of_addresses):
                 address = address_generator.generate_address(address_id, customer_id)
-                addresses.append(address.address_query())
+                addresses_insert_queries.append(address.address_query())
+                addresses.append(address)
                 address_id += 1
 
             number_of_offers = random.randrange(0, 30)
             for _ in range(number_of_offers):
                 offer = offer_generator.generate_offer(offer_id, customer_id, random.randrange(NUMBER_OF_CATEGORIES))
-                offers.append(offer.insert_query())
+                offer_insert_queries.append(offer.insert_query())
+                offers.append(offer)
                 offer_id += 1
 
                 number_of_photos = random.randrange(1, 4)
@@ -89,17 +95,17 @@ async def run():
                     photo_id += 1
             customer_id += 1
 
-        data_inserter.values = addresses
-        await data_inserter.insert_address()
+        data_inserter.values = addresses_insert_queries
+        data_inserter.insert_address()
 
         data_inserter.values = photos
-        await data_inserter.insert_photo()
+        data_inserter.insert_photo()
 
-        data_inserter.values = customers
-        await data_inserter.insert_customers()
+        data_inserter.values = customers_insert_queries
+        data_inserter.insert_customers()
 
-        data_inserter.values = offers
-        await data_inserter.insert_offers()
+        data_inserter.values = offer_insert_queries
+        data_inserter.insert_offers()
 
         for _ in range(NUMBER_OF_PURCHASES):
             offer = offers[random.randrange(len(offers) - 1)]
@@ -111,27 +117,29 @@ async def run():
 
             number_of_delivery = random.randrange(1, 3)
             for _ in range(number_of_delivery):
-                address = addresses[len(addresses)]
+                address = addresses[len(addresses) -1]
                 delivery = delivery_generator.generate_delivery(delivery_id, offer.offer_date, address.address_id,
                                                                 purchase.purchase_id)
                 deliveries.append(delivery.insert_query())
                 delivery_id += 1
 
         data_inserter.values = purchases
-        await data_inserter.insert_purchase()
+        data_inserter.insert_purchase()
 
         data_inserter.values = deliveries
-        await data_inserter.insert_delivery()
+        data_inserter.insert_delivery()
 
-        addresses = []
-        customers = []
+        addresses_insert_queries = []
+        customers_insert_queries = []
         categories = []
-        offers = []
+        offer_insert_queries = []
         photos = []
-        purchases = []
         deliveries = []
+        offers = []
+        customers = []
+        addresses = []
+
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(run())
+    run()

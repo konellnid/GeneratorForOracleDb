@@ -12,4 +12,4 @@ class Customer:
 
     def insert_query(self):
         formatted_date = utils.format_date_for_oracle(self.date_of_birth)
-        return f"({self.customer_id}, '{self.mail}', '{self.name}', '{self.surname}', '{formatted_date}', '{self.description}')"
+        return f"({self.customer_id}, '{self.mail}', '{self.name}', '{self.surname}', {formatted_date}, '{self.description}')"
