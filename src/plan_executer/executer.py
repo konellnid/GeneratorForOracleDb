@@ -10,10 +10,6 @@ un = 'user123'  # os.environ.get('PYTHON_USERNAME')
 pw = 'password'  # os.environ.get('PYTHON_PASSWORD')
 cs = 'localhost/xepdb1 '  # os.environ.get('PYTHON_CONNECTSTRING')
 
-QUERIES = [
-    queries.TASK_1.format(X="Shoes", Y="2012", Z=10)
-]
-
 NUMBER_OF_TRIES = 5
 SEPARATOR = f"\n\n{'-' * 30}\n\n"
 
@@ -71,5 +67,6 @@ def execute(task_query, task_name):
 
 
 if __name__ == '__main__':
+    execution_block = []
     for index in range(len(QUERIES)):
         execute(QUERIES[index], f"plan_{index + 1}")
