@@ -49,7 +49,7 @@ from offer right join purchase on fk_offer = offer_id
 Where TO_CHAR(purchase_date, 'mm') = TO_CHAR(current_date, 'mm') and
 TO_CHAR(purchase_date, 'yyyy') = TO_CHAR(current_date, 'yyyy')
 Group by offer_id, offer.price, purchase.fk_customer)
-join customer on customer_id = purchase_customer_id
+join customer on user_id = purchase_customer_id
 group by purchase_customer_id, mail
 having sum(purchase_price) > (
 select avg(purchase_price_sum)
@@ -68,7 +68,7 @@ group by purchase_customer_id
 
 TASK_5 = """EXPLAIN PLAN FOR select offer_id, offer.name "name", price, avg(rating) "avg_rating", sum(purchase.quantity) "count_purchase", customer.name "user_name"
 from offer
-left join customer on customer_id = fk_customer
+left join customer on user_id = fk_customer
 right join purchase on fk_offer = offer_id
 Where TO_CHAR(offer_date, 'mm') = '{A1}' and
 TO_CHAR(offer_date, 'yyyy') = '{A2}'

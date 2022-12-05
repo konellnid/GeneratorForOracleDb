@@ -10,6 +10,15 @@ un = 'user123'  # os.environ.get('PYTHON_USERNAME')
 pw = 'password'  # os.environ.get('PYTHON_PASSWORD')
 cs = 'localhost/xepdb1 '  # os.environ.get('PYTHON_CONNECTSTRING')
 
+QUERIES = [
+    queries.QUERY_1,
+    queries.QUERY_2,
+    queries.QUERY_3,
+    queries.QUERY_4,
+    queries.QUERY_5,
+    queries.QUERY_6
+]
+
 NUMBER_OF_TRIES = 5
 SEPARATOR = f"\n\n{'-' * 30}\n\n"
 
@@ -45,9 +54,13 @@ def work_time_data(executed_plans):
     return time_data_string
 
 
-def create_full_string(executed_plans, time_data_string, task_name):
-    plans_string = SEPARATOR.join(f"EXECUTION {i + 1}\n{executed_plans[i]}" for i in range(len(executed_plans)))
-    full_string = f"{task_name.upper()}\n\n{time_data_string}\n{SEPARATOR}{plans_string}"
+def create_full_string(executed_plans, time_data_string, task_name, count_of_queries):
+    plans_string = SEPARATOR.join(
+        f"EXECUTION {int(i % (len(executed_plans) / count_of_queries)) + 1}\n{executed_plans[i]}" for i in
+        range(len(executed_plans)))
+    times = SEPARATOR.join(
+        f"Query {x + 1}: {time_data_string[x]}" for x in range(len(time_data_string)))
+    full_string = f"{task_name.upper()}\n\n{times}\n{SEPARATOR}{plans_string}"
     return full_string
 
 
@@ -59,10 +72,14 @@ def save_to_file(full_string, task_name):
         file.write(full_string)
 
 
-def execute(task_query, task_name):
-    executed_plans = run_plans(task_query)
-    time_data_string = work_time_data(executed_plans)
-    full_string = create_full_string(executed_plans, time_data_string, task_name)
+def execute(task_queries, task_name):
+    executed_plans = []
+    times = []
+    for query in task_queries:
+        plan = run_plans(query)
+        executed_plans.extend(plan)
+        times.append(work_time_data(plan))
+    full_string = create_full_string(executed_plans, times, task_name, len(task_queries))
     save_to_file(full_string, task_name)
 
 
