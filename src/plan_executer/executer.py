@@ -71,19 +71,11 @@ def execute(task_query, task_name):
 
 
 def make_backup():
-    sid = 'xepdb1'
-    logfile = 'logs.log'
-    # dirname = os.path.dirname(__file__)
-    # print(f'dirname {dirname}')
-    # cmdfile = os.path.join(dirname, 'backup_script.cmd')
     cmdfile = 'src\plan_executer\\backup_script.cmd'
-    print(f'Oracle backup settings: - SID:  {sid} - cmdFile: {cmdfile}')
+    print(f'Oracle backup settings: - cmdFile: {cmdfile}')
     rmanCMD = f'rman cmdfile="{cmdfile}" target {un}/{pw}@{cs}'
 
     os.putenv('NLS_DATE_FORMAT', 'DD-MM-YYYY HH24:MI:SS')
-    os.putenv('ORACLE_SID', sid)
-    os.putenv('ORACLE_SERVICE_NAME', sid)
-    print("env var set")
     process = subprocess.Popen(
         rmanCMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print(f'stdout: {str(process.stdout.read(), "utf-8")}')
@@ -91,11 +83,16 @@ def make_backup():
 
 
 def restore_db():
-    pass
+    cmdfile = 'src\plan_executer\\restore.cmd'
+    rmanCMD = f'rman cmdfile="{cmdfile}" target {un}/{pw}@{cs}'
+    process = subprocess.Popen(
+        rmanCMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(f'stdout: {str(process.stdout.read(), "utf-8")}')
+    print(f'stderr: {str(process.stderr.read(), "utf-8")}')
 
 
 if __name__ == '__main__':
     # execution_block = []
     # for index in range(len(QUERIES)):
     #     execute(QUERIES[index], f"plan_{index + 1}")
-    make_backup()
+    restore_db()
