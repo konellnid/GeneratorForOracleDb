@@ -105,3 +105,10 @@ SELECT_XPLAN = "SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY)"
 FLUSH_BUFFER = "ALTER SYSTEM FLUSH BUFFER_CACHE"
 
 TABLES = ['OFFER', 'Address', 'Category', 'Customer', 'Delivery', 'Photo', 'Purchase']
+
+CREATE_INDEX = "CREATE INDEX {index_name} ON {table}({column})"
+DROP_INDEX = "DROP INDEX index123{index_number}"
+
+INDEX_1 = "CREATE INDEX index123{index_number} ON address(country, postal_code)"
+INDEX_2 = "CREATE BITMAP INDEX index123{index_number} ON delivery(DELIVERY_TYPE)"
+INDEX_3 = "CREATE INDEX index123{index_number} ON purchase (TO_CHAR(purchase_date, 'mm'), TO_CHAR(purchase_date, 'yyyy'))"
