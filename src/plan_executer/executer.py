@@ -27,7 +27,7 @@ NUMBER_OF_TRIES = 5
 SEPARATOR = f"\n\n{'-' * 30}\n\n"
 
 INDEX = {
-    1: [queries.INDEX_3, queries.INDEX_2],
+    1: [queries.INDEX_3],
     2: [queries.INDEX_1, queries.INDEX_2, queries.INDEX_3],
 }
 def measure_query_time(task_query):
