@@ -30,6 +30,8 @@ INDEX = {
     1: [queries.INDEX_3],
     2: [queries.INDEX_1, queries.INDEX_2, queries.INDEX_3],
 }
+
+
 def measure_query_time(task_query):
     times = []
     for i in range(NUMBER_OF_TRIES):
@@ -50,10 +52,14 @@ def measure_query_time_with_index(task_query, index_queries):
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
                 for test in index_queries:
+                    start_index = time.time()
+
                     for index_number in range(len(test)):
                         query = test[index_number].format(index_number=index_number)
                         cursor.execute(query)
 
+                    end_index = time.time()
+                    print(f"indexing time: {(end_index-start_index)}")
                     cursor.execute(queries.FLUSH_BUFFER)
                     start = time.time()
                     cursor.execute(task_query)
